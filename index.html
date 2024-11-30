@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=EB+Garamond&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css"> <!-- link to your styles.css -->
+    <style>body {
+        background-image: url(loginbg.jpg);
+        background-size: cover;
+        background-position: center ;
+        background-attachment: fixed;
+        font-family: 'EB Garamond', sans-serif;
+        text-align: center;
+        color: #c84e89;
+     }
+     </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="login-btn" style="background-color: rgb(222, 157, 168); color: white; border: none; padding: 5px 10px; font-size: 15px; border-radius: 5px;">Login</button>
+        </form>
+        <p>Don't have an account? <a href="register.html">Register here</a></p>
+    </div>
+
+    <script>
+        // Add event listener to form submission
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from submitting normally
+
+            // Simulating form submission and successful login
+            // After validation (if any), we redirect the user to home.html
+            window.location.href = 'home.html'; // Redirect to home.html
+        });
+    </script>
+</body>
+</html>

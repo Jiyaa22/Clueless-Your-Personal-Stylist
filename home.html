@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Quiz and Outfit Picker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=EB+Garamond&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+           background-image: url(chic.jpg);
+           background-size: cover;
+           background-position: center ;
+           background-attachment: fixed;
+           font-family: 'EB Garamond', sans-serif;
+           color: #333;
+        }
+        h1 {
+           font-family: 'Great Vibes', cursive;
+           color: #c84e89;
+           background-color: #eed9d4;
+           padding: 20px;
+           border-radius: 15px;
+           box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+           text-align: center;
+           font-size: 3.5rem;
+           margin-top: 20px;
+        }
+        #selection-container, #quiz-container, #picker-container {
+            width: 80%;
+            max-width: 400px;
+            margin: auto;
+            background-color: #eed9d4;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            margin-bottom: 40px;
+            display: none;
+        }
+        .selection-btn, .back-btn {
+            display: block;
+            background-color: #c84e89;
+            color: white;
+            font-size: 1rem;
+            text-align: center;
+            padding: 10px 15px;
+            border-radius: 25px;
+            margin: 20px auto;
+            width: 180px;
+            transition: background-color 0.3s;
+        }
+        .selection-btn:hover, .back-btn:hover {
+            background-color: #94416b;
+            cursor: pointer;
+        }
+        button {
+            background-color: #c84e89;
+            color: white;
+            font-size: 1rem;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #94416b;
+            cursor: pointer;
+        }
+        #outfit-picker {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .outfit-btn {
+            background-color: #f7a399;
+            color: #333;
+            padding: 10px 15px;
+            border-radius: 15px;
+        }
+        #image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        #image-gallery img {
+            width: 100px;
+            height: 150px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+        
+        }
+    </style>
+</head>
+<body>
+    <h1>Clueless- Your Personal Stylist</h1>
+
+    <!-- Selection Page -->
+    <div id="selection-container">
+        <button class="selection-btn" onclick="showSection('quiz')">Take the Fashion Quiz</button>
+        <button class="selection-btn" onclick="showSection('picker')">Pick Your Outfit</button>
+    </div>
+
+    <!-- Quiz Container -->
+    <div id="quiz-container">
+        <h1>Fashion Quiz</h1>
+        <p id="question"></p>
+        <ul>
+            <li><button id="option-a"></button></li>
+            <li><button id="option-b"></button></li>
+            <li><button id="option-c"></button></li>
+            <li><button id="option-d"></button></li>
+        </ul>
+        <div id="feedback"></div>
+        <button id="next" style="display:none;">Next Question</button>
+        <button id="quit" style="background-color: lightpink;">Quit Quiz</button> 
+        <button class="back-btn" onclick="showSection('home')">Back to Homepage</button>
+    </div>
+
+    <!-- Outfit Picker Container -->
+    <div id="picker-container">
+        <h2 style="text-align: center;">Choose Your Outfit Style</h2>
+        <div id="outfit-picker">
+            <button class="outfit-btn" onclick="showOutfits('corporate-formals')">Corporate Formals</button>
+            <button class="outfit-btn" onclick="showOutfits('casual-brunch')">Casual Brunch</button>
+            <button class="outfit-btn" onclick="showOutfits('college-fits')">Everyday College Fits</button>
+            <button class="outfit-btn" onclick="showOutfits('fancy-dineout')">Fancy Dineout</button>
+            <button class="outfit-btn" onclick="showOutfits('sporty-day')">Sporty Day</button>
+        </div>
+        <div id="image-gallery"></div>
+        <button class="back-btn" onclick="showSection('home')">Back to Homepage</button>
+    </div>
+
+    <script>
+        
+        const outfits = {
+    "corporate-formals": [
+        { src: "corp1.jpg", link: "https://docs.google.com/document/d/1CYOkV-HU4cNs54RUgsvhn1YCSUIhJ-go8BlIaFEVfcE/edit?usp=sharing" },
+        { src: "corp2.jpg", link: "https://docs.google.com/document/d/1Q6IJnw-g2GmJa_rf5GpG17z0mbeuOtXLlKvTkg-V0BE/edit?usp=sharing" },
+        { src: "corp3.jpg", link: "https://docs.google.com/document/d/19duVc_n5xXo01Zg_Pjzv4fBujpwOkQQhdqp8r8FppBk/edit?usp=sharing" },
+        { src: "corp4.jpg", link: "https://docs.google.com/document/d/1fPIBccIUFqAeQC5DX89-DJ7Xt4e5QFLYeuGO9VG87W8/edit?usp=sharing" },
+        { src: "corp5.jpg", link: "https://docs.google.com/document/d/1ZMbqtJ35kdfLbqHvQ4PIWKVqEjOkodW9GgXxQQsK2Wg/edit?usp=sharing" },
+        { src: "corp6.jpg", link: "https://docs.google.com/document/d/18myh9Cx2iLG_CSwS_hbAunH_fWscdEsmtatHaDlbesM/edit?usp=sharing" },
+        { src: "corp7.jpg", link: "https://docs.google.com/document/d/1GqBeEAYF5cZ2QD4hIgg43aaWSMpJ2Rvf7Oi0M1mHVgo/edit?usp=sharing" },
+        { src: "corp8.jpg", link: "https://docs.google.com/document/d/1fFV6e-ZFebGVk7SVKtypwa4H91aSjjQHjEmlvuivhjM/edit?usp=sharing" },
+        { src: "corp9.jpg", link: "https://docs.google.com/document/d/1wobWaV-5okKgetUa_lSeBqqQ5n-s6JqCfgjFTkL5L0Q/edit?usp=sharing" },
+        { src: "corp10.jpg", link: "https://docs.google.com/document/d/1YuelQBhNwbnrtestHuactPxCc-UU3meKcuV-Y_Fs-jg/edit?usp=sharing" }
+    ],
+    "casual-brunch": [
+
+        { src: "brunch1.jpg", link: "https://docs.google.com/document/d/1Xr_M7Sdg00knjYzaAI2cjVX2Kupngc7nqVeJrxmJrKM/edit?usp=sharing" },
+        { src: "brunch2.jpg", link: "https://docs.google.com/document/d/1csklDwrPCC7Yi-fZGECP9Z-X6ADmuIhsfgu7ocBItKw/edit?usp=sharing" },
+        { src: "brunch3.jpg", link: "https://docs.google.com/document/d/1Nf63f3QckiD30QcDBphZHG88gWTPWZnV8_y4Q6xIOC0/edit?usp=sharing" },
+        { src: "brunch4.jpg", link: "https://docs.google.com/document/d/1wp-3SfEtqIwS8kcWhHhIbvVBLPlgv_wnQTk4BoBKbVI/edit?usp=sharing" },
+        { src: "brunch5.jpg", link: "https://docs.google.com/document/d/1ogXstSAB4Ma8Vit5DitS9hz2w552kgUE9YQBcqsRI6g/edit?usp=sharing" },
+        { src: "brunch6.jpg", link: "https://docs.google.com/document/d/1f6__dDL3g79YOBXmhG4G0kbx2jB51SBdOHxT3-eeQ4w/edit?usp=sharing" },
+        { src: "brunch7.jpg", link: "https://docs.google.com/document/d/1AqW_VRcbLSXiu65eiq1TsBkV6-JjkFZCgbKZO99o1gM/edit?usp=sharing" },
+        { src: "brunch8.jpg", link: "https://docs.google.com/document/d/1Wn_ZxlBGlbAAGoRnlYC_i3OdyD2Gc1Kd1LWrSgtk2ek/edit?usp=sharing" },
+        { src: "brunch9.jpg", link: "https://docs.google.com/document/d/1VN9FWaYexDecBFznvxQAsDRPqML1my14kpQ27_VgXKI/edit?usp=sharing" },
+        { src: "brunch10.jpg", link: "https://docs.google.com/document/d/1E6NDDWXnIxxW0tDFdQluWy8SWzk4o-ecNQiLnpae-Y0/edit?usp=sharing" }
+    ],
+    "college-fits": [
+        { src: "uni1.jpg", link: "https://docs.google.com/document/d/1kkS70bz5eFfFL7QSqtRJlmB0XJucbuGqg-MvgYElH0g/edit?usp=sharing" },
+        { src: "uni2.jpg", link: "https://docs.google.com/document/d/1QKlOfLm1b2a48VKH2N6FqQMrcnU6yy9HX5fG-iq-JWM/edit?usp=sharing" },
+        { src: "uni3.jpg", link: "https://docs.google.com/document/d/1ZxkFPvAURSuSTTBdcORf2DS4F5fLmxolOaM1H9bdyZc/edit?usp=sharing" },
+        { src: "uni4.jpg", link: "https://docs.google.com/document/d/1yK7qNSUWkGdNxls3Q4n8ym8vvcfoUACOx-VahUo49DE/edit?usp=sharing" },
+        { src: "uni5.jpg", link: "https://docs.google.com/document/d/1rJKA0-M5FbGParI3qpJIFGcFG-uK2Nk0uAiiObMZKQ8/edit?usp=sharing" },
+        { src: "uni6.jpg", link: "https://docs.google.com/document/d/1blWSrCDtIQ1BAfLWqpcdlh-erEPeU8AQ1Wt4QBoRmOE/edit?usp=sharing" },
+        { src: "uni7.jpg", link: "https://docs.google.com/document/d/13EAn27_g7f8o2N2zDE2MpQ1ip3XabyV2goV6l8SZEtA/edit?usp=sharing" },
+        { src: "uni8.jpg", link: "https://docs.google.com/document/d/1lc72HW6Pfh5CUnO5Vo_jlpSNr1AfS41W73N7Al5CCX0/edit?usp=sharing" },
+        { src: "uni9.jpg", link: "https://docs.google.com/document/d/11VKyluPECPCOv7yql7IQR3PKUzgHesceKdwe9jEsuTY/edit?usp=sharing" },
+        { src: "uni10.jpg", link: "https://docs.google.com/document/d/1r1vVc-liuOtkZ0o-6989WyquD3qk-VwDQBSp_IRV46A/edit?usp=sharing" }
+    ],
+    "fancy-dineout": [
+        { src: "dine1.jpg", link: "https://docs.google.com/document/d/1ploOD6URTLuKoe_Ifkyn090wrtzJpcDtoqRcYcguenQ/edit?usp=sharing" },
+        { src: "dine2.jpg", link: "https://docs.google.com/document/d/1d739Sa8OWXz7aeYGdLBcJBp5x4QbxvktrLy6h9ZvsyY/edit?usp=sharing" },
+        { src: "dine3.jpg", link: "https://docs.google.com/document/d/1HVJZ0nkDtvhTLH2Uj8FjXEjn1iUnL_SVf_qVLhyI8kA/edit?usp=sharing" },
+        { src: "dine4.jpg", link: "https://docs.google.com/document/d/1FMDoHlRhfKsFAqL8LtmvkIfsn_fE-8ggFysSFjyCS9s/edit?usp=sharing" },
+        { src: "dine5.jpg", link: "https://docs.google.com/document/d/1VGuKx9UhWBzw_E0R3ifz-fuKuOorku0SvQ6rSbHLRtg/edit?usp=sharing" },
+        { src: "dine6.jpg", link: "https://docs.google.com/document/d/1b_ClnjOv8iUIf14wjgNWdcD2MuNuyrgrmt9SKYmMBrs/edit?usp=sharing" },
+        { src: "dine7.jpg", link: "https://docs.google.com/document/d/1gkvhne-mf0AKw5ih0Pz0BwOysFhB7Ea7d6FYuVqXYco/edit?usp=sharing" },
+        { src: "dine8.jpg", link: "https://docs.google.com/document/d/1u0pvb9L5kLHV3tTjNZ4jjr5gzeRD9yUg75wq5F4Ua6c/edit?usp=sharing" },
+        { src: "dine9.jpg", link: "https://docs.google.com/document/d/1H3WgyDGaY4Hbvz4Youkr7BSw9x_1j9ZD3tfAPoqomwo/edit?usp=sharing" },
+        { src: "dine10.jpg", link: "https://docs.google.com/document/d/1JMRzcfVQfGi4v5R_7vlHcupTexJ4z7aCaEsVvH-t3fk/edit?usp=sharing" }
+    ],
+    "sporty-day": [
+        { src: "sport1.jpg", link: "#sport-link-1" },
+        { src: "sport2.jpg", link: "#sport-link-2" },
+        { src: "sport3.jpg", link: "#sport-link-3" },
+        { src: "sport4.jpg", link: "#sport-link-4" },
+        { src: "sport5.jpg", link: "#sport-link-5" },
+        { src: "sport6.jpg", link: "#sport-link-6" },
+        { src: "sport7.jpg", link: "#sport-link-7" },
+        { src: "sport8.jpg", link: "#sport-link-8" },
+        { src: "sport9.jpg", link: "#sport-link-9" },
+        { src: "sport10.jpg", link: "#sport-link-10" }
+    ]
+    // Add other categories in the same way
+};
+
+function showOutfits(category) {
+    const gallery = document.getElementById("image-gallery");
+    gallery.innerHTML = ""; // Clear previous images
+    outfits[category].forEach(outfit => {
+        const link = document.createElement("a"); // Create a link element
+        link.href = outfit.link; // Set the specific link for the image
+        link.target = "_blank"; // Open in a new tab
+
+        const img = document.createElement("img");
+        img.src = outfit.src; // Add the correct path to the image
+        img.alt = `${category} outfit`; // Add alternative text for accessibility
+
+        link.appendChild(img); // Make the image clickable
+        gallery.appendChild(link); // Add the link to the gallery
+    });
+}
+
+        function showSection(section) {
+            document.getElementById('selection-container').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('picker-container').style.display = 'none';
+
+            if (section === 'home') {
+                document.getElementById('selection-container').style.display = 'block';
+            } else if (section === 'quiz') {
+                document.getElementById('quiz-container').style.display = 'block';
+            } else if (section === 'picker') {
+                document.getElementById('picker-container').style.display = 'block';
+            }
+        }
+
+        window.onload = function() {
+            document.getElementById('selection-container').style.display = 'block';
+        };
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
